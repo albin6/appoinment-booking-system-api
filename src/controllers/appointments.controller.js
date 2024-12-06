@@ -83,7 +83,7 @@ export const updateAnAppointmentByPhone = (req, res) => {
 };
 
 export const deleteAnAppointmentByPhone = (req, res) => {
-  const { phone } = req.params;
+  const phone = req.params.id;
   let appointments = loadAppointmentsFromFile();
 
   const index = appointments.findIndex((a) => a.phone === phone.trim());
