@@ -63,7 +63,7 @@ export const updateAnAppointmentByPhone = (req, res) => {
   const { name, phone, time, date } = req.body;
   console.log(req.body);
   let appointments = loadAppointmentsFromFile();
-  const index = appointments.findIndex((a) => a.phone === ph);
+  const index = appointments.findIndex((a) => a.phone === ph.trim());
   if (index >= 0) {
     // Update appointment
     appointments[index] = {
@@ -86,7 +86,7 @@ export const deleteAnAppointmentByPhone = (req, res) => {
   const { phone } = req.params;
   let appointments = loadAppointmentsFromFile();
 
-  const index = appointments.findIndex((a) => a.phone === phone);
+  const index = appointments.findIndex((a) => a.phone === phone.trim());
 
   if (index >= 0) {
     // Delete appointment
