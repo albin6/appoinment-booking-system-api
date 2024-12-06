@@ -1,26 +1,26 @@
-const fs = require("fs/promises");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-const filePath = path.join(__dirname, "../../data/appointments.txt");
+const appointmentsFile = path.resolve("src/data/appointments.txt");
 
-exports.readFromFile = async () => {
-  try {
-    const data = await fs.readFile(filePath, "utf-8");
-    return data ? JSON.parse(data) : [];
-  } catch (err) {
-    if (err.code === "ENOENT") return [];
-    throw err;
+export const saveAppointmentsToFile = (appointments) => {
+  const dirPath = path.dirname(appointmentsFile);
+
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
   }
+
+  fs.writeFileSync(
+    appointmentsFile,
+    JSON.stringify(appointments, null, 2),
+    "utf-8"
+  );
 };
 
-exports.saveToFile = async (appointments) => {
-  try {
-    await fs.writeFile(
-      filePath,
-      JSON.stringify(appointments, null, 2),
-      "utf-8"
-    );
-  } catch (err) {
-    throw new Error("Failed to save appointments");
+export const loadAppointmentsFromFile = () => {
+  if (fs.existsSync(appointmentsFile)) {
+    const data = fs.readFileSync(appointmentsFile, "utf-8");
+    return JSON.parse(data || "[]");
   }
+  return [];
 };

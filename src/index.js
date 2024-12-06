@@ -3,6 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import appointmentRouter from "./routes/appoinmentsRoutes.js";
 
 dotenv.config();
 
@@ -30,8 +31,10 @@ app.use(express.json({ limit: "10kb" }));
 
 // Sample Route
 app.get("/", (req, res) => {
-  res.send("Spa Appointment Booking System API is running!");
+  res.json("Spa Appointment Booking System API is running!");
 });
+
+app.use("/appointments", appointmentRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
